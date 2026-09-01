@@ -8,10 +8,14 @@
 
 const DEFAULT_URL = 'https://kidush-kash-b0eb9-default-rtdb.europe-west1.firebasedatabase.app'
 
-/** כתובת הבסיס. ניתנת לדריסה בזמן בנייה דרך VITE_RTDB_URL. */
-export const dbUrl = (import.meta.env.VITE_RTDB_URL ?? DEFAULT_URL).replace(/\/$/, '')
+/**
+ * כתובת הבסיס. ניתנת לדריסה בזמן בנייה דרך VITE_RTDB_URL.
+ * מחרוזת ריקה או רווחים בלבד נחשבת "לא הוגדר" וחוזרת לברירת המחדל —
+ * כך שהגדרה ריקה בסביבת ה-CI לא מנתקת בשקט מה-DB המשותף.
+ */
+const override = import.meta.env.VITE_RTDB_URL?.trim()
 
-export const isDbConfigured = dbUrl.length > 0
+export const dbUrl = (override || DEFAULT_URL).replace(/\/$/, '')
 
 function endpoint(path: string) {
   return `${dbUrl}/${path.replace(/^\//, '')}.json`

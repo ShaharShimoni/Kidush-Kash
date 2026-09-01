@@ -5,7 +5,7 @@
 
 **האתר החי:** https://netanelshimoni0.github.io/kidush-kash/
 
-בנוי מתוך עיצוב ייחוס ויזואלי ב-React + TypeScript + Vite, עם Firestore כמקור נתונים.
+בנוי מתוך עיצוב ייחוס ויזואלי ב-React + TypeScript + Vite, עם Firebase Realtime Database כמקור נתונים.
 
 הצבעים והמידות לא נאמדו בעין: הם חולצו מקובץ העיצוב באמצעות בדיקת פיקסלים
 על canvas, והקישוטים בראש העמוד הם חיתוכים של האיור המקורי שעברו נרמול רקע
@@ -23,9 +23,9 @@ npm run dev
 
 האפליקציה עולה בכתובת `http://localhost:5173`.
 
-היא פועלת מיד גם **ללא Firebase** — במצב הזה הנתונים נשמרים ב-`localStorage`
-של הדפדפן. ברגע שמשתני הסביבה של Firebase קיימים, המערכת עוברת אוטומטית
-לעבודה מול Firestore בזמן אמת.
+האפליקציה מתחברת תמיד ל-Realtime Database — הכתובת מוגדרת כברירת מחדל בקוד
+(`src/lib/realtimeDb.ts`), כך שאין צורך בהגדרת סביבה כדי להריץ מקומית מול
+הנתונים החיים. אין מצב "מקומי בלבד" — כל המשפחות תמיד רואות את אותו מצב.
 
 ## פקודות
 
@@ -58,7 +58,8 @@ npm run dev
 מישהו הקדים, השרת מחזיר 412 והפעולה חוזרת עם הערך העדכני.
 
 הכתובת נמצאת ב-`src/lib/realtimeDb.ts` וניתנת לדריסה דרך `VITE_RTDB_URL`.
-ללא כתובת האפליקציה עובדת מקומית מול `localStorage`.
+`VITE_RTDB_URL` ריק, לא מוגדר, או מרווחים בלבד — כולם נופלים חזרה לברירת
+המחדל שבקוד, כדי שסביבת CI עם משתנה ריק לא תנתק בשקט מה-DB המשותף.
 
 ### חוקי אבטחה
 
@@ -119,8 +120,8 @@ npx firebase-tools deploy --only firestore:rules
 
 1. [vercel.com/new](https://vercel.com/new) → Import של הרפוזיטורי.
 2. Vercel מזהה Vite אוטומטית (`vercel.json` כבר בפרויקט).
-3. **Settings → Environment Variables** — הוסיפו את ששת משתני
-   `VITE_FIREBASE_*` לסביבות Production, Preview ו-Development.
+3. **Settings → Environment Variables** — אופציונלי: `VITE_RTDB_URL` אם
+   רוצים לדרוס את כתובת ה-Realtime Database המוגדרת כברירת מחדל בקוד.
 4. Deploy. כל push ל-`main` יפרוס אוטומטית.
 
 **דרך ב׳ — פריסה דרך GitHub Actions:**
@@ -132,7 +133,7 @@ npx firebase-tools deploy --only firestore:rules
 | `VERCEL_TOKEN` | Vercel → Account Settings → Tokens |
 | `VERCEL_ORG_ID` | `.vercel/project.json` אחרי `vercel link` |
 | `VERCEL_PROJECT_ID` | `.vercel/project.json` אחרי `vercel link` |
-| `VITE_FIREBASE_*` | אובייקט ה-config של Firebase |
+| `VITE_RTDB_URL` | אופציונלי — דריסת כתובת ה-Realtime Database |
 
 `.github/workflows/deploy.yml` מדלג על הפריסה בשקט כל עוד הסודות חסרים,
 כך שה-CI לעולם לא נכשל בגללם.
@@ -181,8 +182,9 @@ src/
 │  ├─ Toast.tsx
 │  └─ icons/                אייקוני מזון וממשק (SVG פנימיים)
 ├─ lib/
-│  ├─ firebase.ts           אתחול מותנה לפי משתני סביבה
-│  ├─ contributionsRepo.ts  Firestore + נפילה חזרה לאחסון מקומי
+│  ├─ realtimeDb.ts         גישה ל-Realtime Database דרך REST API + SSE
+│  ├─ contributionsRepo.ts  לוגיקת הרשמה/ביטול/איפוס מול ה-DB המשותף
+│  ├─ legacyStorage.ts      ניקוי שאריות localStorage מגרסאות קודמות
 │  └─ errors.ts             תרגום שגיאות טכניות לעברית
 ├─ data/contributions.ts    רשימת הפריטים מהעיצוב
 └─ styles/

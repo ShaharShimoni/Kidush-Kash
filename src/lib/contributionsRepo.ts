@@ -1,9 +1,8 @@
-import { dbGet, dbPut, dbSubscribe, dbUpdateWithRetry, isDbConfigured } from './realtimeDb'
+import { dbGet, dbPut, dbSubscribe, dbUpdateWithRetry } from './realtimeDb'
 import { customTints, initialContributions } from '../data/contributions'
 import type { Contribution } from '../types'
 
 const PATH = 'contributions'
-const STORAGE_KEY = 'kidush.contributions.v2'
 
 /** צורת הרשומה כפי שהיא נשמרת. RTDB משמיט מערכים ריקים, ולכן families אופציונלי. */
 type StoredItem = Omit<Contribution, 'id' | 'registeredFamilies'> & {
@@ -60,62 +59,6 @@ function seedMap(): Record<string, StoredItem> {
     map[id] = { ...rest, order: index, isCustom: false }
   })
   return map
-}
-
-/* ------------------------------------------------------------------ */
-/* מימוש מקומי — נכנס לפעולה רק אם אין כתובת בסיס נתונים               */
-/* ------------------------------------------------------------------ */
-
-function createLocalRepo(): ContributionsRepo {
-  // Do not persist selections in local mode to avoid per-device "last
-  // selection" state. Keep data only in-memory so different phones don't
-  // carry stale cached selections across sessions during development.
-  let items = initialContributions
-  const listeners = new Set<(items: Contribution[]) => void>()
-
-  const emit = () => {
-    listeners.forEach((fn) => fn(items))
-  }
-
-  return {
-    subscribe(onData) {
-      listeners.add(onData)
-      const t = setTimeout(() => onData(items), 200)
-      return () => {
-        clearTimeout(t)
-        listeners.delete(onData)
-      }
-    },
-    async register(id, familyName) {
-      const target = items.find((c) => c.id === id)
-      if (!target) throw { code: 'not-found' }
-      if (target.registeredFamilies.includes(familyName)) throw { code: 'already-exists' }
-      if (target.registeredFamilies.length >= target.quantityRequired) {
-        throw { code: 'failed-precondition' }
-      }
-      items = items.map((c) =>
-        c.id === id ? { ...c, registeredFamilies: [...c.registeredFamilies, familyName] } : c,
-      )
-      emit()
-    },
-    async unregister(id, familyName) {
-      items = items.map((c) =>
-        c.id === id
-          ? { ...c, registeredFamilies: c.registeredFamilies.filter((f) => f !== familyName) }
-          : c,
-      )
-      emit()
-    },
-    async addCustom(title, familyName) {
-      if (items.some((c) => c.title.trim() === title.trim())) throw { code: 'already-exists' }
-      items = [...items, makeCustom(title, familyName, items.length)]
-      emit()
-    },
-    async reset() {
-      items = initialContributions.map((c) => ({ ...c, registeredFamilies: [] }))
-      emit()
-    },
-  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -195,20 +138,5 @@ function createRemoteRepo(): ContributionsRepo {
   }
 }
 
-export const contributionsRepo: ContributionsRepo = isDbConfigured
-  ? createRemoteRepo()
-  : createLocalRepo()
-
-export const dataSource: 'remote' | 'local' = isDbConfigured ? 'remote' : 'local'
-
-// If the app is running against the remote Realtime Database, clear any
-// legacy local storage that could hold stale per-device selections so
-// users see the live shared state instead of a cached "last selection".
-if (isDbConfigured) {
-  try {
-    localStorage.removeItem(STORAGE_KEY)
-  } catch {
-    // Ignore errors (e.g. localStorage disabled)
-  }
-}
+export const contributionsRepo: ContributionsRepo = createRemoteRepo()
 

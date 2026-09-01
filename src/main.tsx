@@ -1,7 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
+import { purgeLegacyLocalState } from './lib/legacyStorage'
 import './styles/global.css'
+
+purgeLegacyLocalState()
 
 const container = document.getElementById('root')
 
