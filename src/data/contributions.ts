@@ -8,14 +8,15 @@ import type { Contribution } from '../types'
  */
 export const initialContributions: Contribution[] = [
   { id: 'cakes',            title: 'עוגות',          icon: 'cake',       tint: 'pink',     quantityRequired: 4, registeredFamilies: [] },
-  { id: 'cookies',          title: 'עוגיות',         icon: 'cookie',     tint: 'peach',    quantityRequired: 1, registeredFamilies: [] },
-  { id: 'sweet-pastries',   title: 'מאפים מתוקים',   icon: 'croissant',  tint: 'lavender', quantityRequired: 2, registeredFamilies: [] },
-  { id: 'savory-pastries',  title: 'מאפים מלוחים',   icon: 'muffin',     tint: 'teal',     quantityRequired: 2, registeredFamilies: [] },
-  { id: 'snacks',           title: 'חטיפים + ופלים', icon: 'candy',      tint: 'pink',     quantityRequired: 2, registeredFamilies: [] },
-  { id: 'cut-vegetables',   title: 'ירקות חתוכים',   icon: 'carrot',     tint: 'apricot',  quantityRequired: 1, registeredFamilies: [] },
-  { id: 'cut-fruits',       title: 'פירות חתוכים',   icon: 'apple',      tint: 'pink',     quantityRequired: 2, registeredFamilies: [] },
+  { id: 'cookies',          title: 'עוגיות',         icon: 'cookie',     tint: 'peach',    quantityRequired: 6, registeredFamilies: [] },
+  { id: 'sweet-pastries',   title: 'מאפים מתוקים',   icon: 'croissant',  tint: 'lavender', quantityRequired: 4, registeredFamilies: [] },
+  { id: 'savory-pastries',  title: 'מאפים מלוחים',   icon: 'muffin',     tint: 'teal',     quantityRequired: 4, registeredFamilies: [] },
+  { id: 'snacks',           title: 'חטיפים + ופלים', icon: 'candy',      tint: 'pink',     quantityRequired: 4, registeredFamilies: [] },
+  { id: 'cut-vegetables',   title: 'ירקות חתוכים',   icon: 'carrot',     tint: 'apricot',  quantityRequired: 3, registeredFamilies: [] },
+  { id: 'cut-fruits',       title: 'פירות חתוכים',   icon: 'apple',      tint: 'pink',     quantityRequired: 3, registeredFamilies: [] },
   { id: 'kugel',            title: 'קיגל',           icon: 'kugel',      tint: 'lavender', quantityRequired: 3, registeredFamilies: [] },
   { id: 'iced-coffee',      title: 'קפה קר',         icon: 'icedCoffee', tint: 'pink',     quantityRequired: 3, registeredFamilies: [] },
+  { id: 'iced-coffee',      title: '3 שתיה',         icon: 'icedCoffee', tint: 'teal',     quantityRequired: 4, registeredFamilies: [] },
 ]
 
 /** גוונים מתחלפים לפריטים שמשפחות מוסיפות דרך כרטיס "אחר" */
