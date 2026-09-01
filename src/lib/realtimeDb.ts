@@ -6,7 +6,7 @@
  * שה-REST API של RTDB חושף, ולכן EventSource מספיק.
  */
 
-const DEFAULT_URL = 'https://kidush-kash-e49cd-default-rtdb.europe-west1.firebasedatabase.app'
+const DEFAULT_URL = 'https://kidush-kash-b0eb9-default-rtdb.europe-west1.firebasedatabase.app'
 
 /** כתובת הבסיס. ניתנת לדריסה בזמן בנייה דרך VITE_RTDB_URL. */
 export const dbUrl = (import.meta.env.VITE_RTDB_URL ?? DEFAULT_URL).replace(/\/$/, '')
