@@ -3,6 +3,7 @@ import type { Contribution } from '../types'
 import { Modal } from './Modal'
 import { ProgressBar } from './ProgressBar'
 import { FoodIcon } from './icons/FoodIcons'
+import { recordAmranAck } from '../lib/easterEgg'
 
 interface Props {
   item: Contribution | null
@@ -16,12 +17,14 @@ export function RegistrationDialog({ item, onClose, onRegister, onUnregister }: 
   const [touched, setTouched] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [amranWarningOpen, setAmranWarningOpen] = useState(false)
 
   useEffect(() => {
     setFamilyName('')
     setTouched(false)
     setFormError(null)
     setIsSaving(false)
+    setAmranWarningOpen(false)
   }, [item?.id])
 
   const filled = item?.registeredFamilies.length ?? 0
@@ -41,9 +44,7 @@ export function RegistrationDialog({ item, onClose, onRegister, onUnregister }: 
 
   if (!item) return null
 
-  const submit = async () => {
-    setTouched(true)
-    if (validationError) return
+  const doRegister = async () => {
     setIsSaving(true)
     setFormError(null)
     try {
@@ -56,7 +57,45 @@ export function RegistrationDialog({ item, onClose, onRegister, onUnregister }: 
     }
   }
 
+  const submit = async () => {
+    setTouched(true)
+    if (validationError) return
+    const normalized = familyName.trim().replace(/^משפחת\s+/, '').trim()
+    if (normalized === 'עמרן') {
+      setAmranWarningOpen(true)
+      return
+    }
+    await doRegister()
+  }
+
   const showError = touched && validationError
+
+  if (amranWarningOpen) {
+    return (
+      <Modal
+        open
+        title="אזהרה!"
+        onClose={onClose}
+        footer={
+          <button
+            type="button"
+            className="btn btn--primary"
+            onClick={() => {
+              recordAmranAck()
+              setAmranWarningOpen(false)
+              void doRegister()
+            }}
+          >
+            אישור
+          </button>
+        }
+      >
+        <p className="reset-warning">
+          זוהית כחבר מקלט ולא כחבר מניין, בבקשה ממך אל תביא קרקרים אתה לא כמו החברים שלך.
+        </p>
+      </Modal>
+    )
+  }
 
   return (
     <Modal

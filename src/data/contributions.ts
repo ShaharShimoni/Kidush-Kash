@@ -16,7 +16,7 @@ export const initialContributions: Contribution[] = [
   { id: 'cut-fruits',       title: 'פירות חתוכים',   icon: 'apple',      tint: 'pink',     quantityRequired: 3, registeredFamilies: [] },
   { id: 'kugel',            title: 'קיגל',           icon: 'kugel',      tint: 'lavender', quantityRequired: 3, registeredFamilies: [] },
   { id: 'iced-coffee',      title: 'קפה קר',         icon: 'icedCoffee', tint: 'pink',     quantityRequired: 3, registeredFamilies: [] },
-  { id: 'iced-coffee',      title: '3 שתיה',         icon: 'icedCoffee', tint: 'teal',     quantityRequired: 4, registeredFamilies: [] },
+  { id: 'drinks',      title: '3 שתיה',         icon: 'icedCoffee', tint: 'teal',     quantityRequired: 4, registeredFamilies: [] },
 ]
 
 /** גוונים מתחלפים לפריטים שמשפחות מוסיפות דרך כרטיס "אחר" */
