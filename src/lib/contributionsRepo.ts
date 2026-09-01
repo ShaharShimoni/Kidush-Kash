@@ -67,25 +67,13 @@ function seedMap(): Record<string, StoredItem> {
 /* ------------------------------------------------------------------ */
 
 function createLocalRepo(): ContributionsRepo {
-  const read = (): Contribution[] => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY)
-      if (raw) return JSON.parse(raw) as Contribution[]
-    } catch {
-      /* אחסון חסום בדפדפן */
-    }
-    return initialContributions
-  }
-
-  let items = read()
+  // Do not persist selections in local mode to avoid per-device "last
+  // selection" state. Keep data only in-memory so different phones don't
+  // carry stale cached selections across sessions during development.
+  let items = initialContributions
   const listeners = new Set<(items: Contribution[]) => void>()
 
   const emit = () => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
-    } catch {
-      /* ממשיכים בזיכרון בלבד */
-    }
     listeners.forEach((fn) => fn(items))
   }
 
@@ -212,4 +200,15 @@ export const contributionsRepo: ContributionsRepo = isDbConfigured
   : createLocalRepo()
 
 export const dataSource: 'remote' | 'local' = isDbConfigured ? 'remote' : 'local'
+
+// If the app is running against the remote Realtime Database, clear any
+// legacy local storage that could hold stale per-device selections so
+// users see the live shared state instead of a cached "last selection".
+if (isDbConfigured) {
+  try {
+    localStorage.removeItem(STORAGE_KEY)
+  } catch {
+    // Ignore errors (e.g. localStorage disabled)
+  }
+}
 
