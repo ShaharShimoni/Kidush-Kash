@@ -42,6 +42,19 @@ export async function dbDelete(path: string): Promise<void> {
 }
 
 /**
+ * כתיבה חלקית — ממזגת רק את השדות שסופקו, בלי לגעת בשאר צאצאי הנתיב.
+ * זה מה שמאפשר לעדכן למשל quantityRequired בלי לדרוס registeredFamilies.
+ */
+export async function dbPatch<T>(path: string, patch: Partial<T>): Promise<void> {
+  const res = await fetch(endpoint(path), {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(patch),
+  })
+  if (!res.ok) throw { code: httpToCode(res.status), status: res.status }
+}
+
+/**
  * קריאה עם ETag וכתיבה מותנית בו.
  *
  * זו הדרך של RTDB למנוע דריסה הדדית: אם משפחה אחרת עדכנה את אותו פריט

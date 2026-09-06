@@ -110,6 +110,17 @@ export function InfoIcon(p: P) {
   )
 }
 
+export function TrashIcon(p: P) {
+  return (
+    <svg {...base} {...p} strokeWidth={1.8}>
+      <path d="M4.6 7.2h14.8" />
+      <path d="M9.4 7.2V5.4a1.2 1.2 0 0 1 1.2-1.2h2.8a1.2 1.2 0 0 1 1.2 1.2v1.8" />
+      <path d="M6.6 7.2 7.3 19a1.2 1.2 0 0 0 1.2 1.1h6.9a1.2 1.2 0 0 0 1.2-1.1l.8-11.8" />
+      <path d="M10.3 10.6v6.4M13.7 10.6v6.4" />
+    </svg>
+  )
+}
+
 export function ListIcon(p: P) {
   return (
     <svg {...base} {...p} strokeWidth={1.6}>

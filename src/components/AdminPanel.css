@@ -1,0 +1,246 @@
+/* =================================================================
+   מסך ניהול (/control) — משתמש אך ורק בטוקנים הקיימים מ-tokens.css,
+   כדי לשמור על אותה שפת עיצוב בדיוק כמו האפליקציה הראשית.
+   ================================================================= */
+
+/* ---------- שער כניסה (סיסמה) ---------- */
+.control-gate {
+  direction: rtl;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--c-bg-flat);
+}
+
+.control-gate__card {
+  width: min(420px, 100%);
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+
+.control-gate__card .dlg__title {
+  font-size: var(--fs-h2);
+}
+
+/* ---------- מיכל העמוד ---------- */
+.control-page {
+  direction: rtl;
+  min-height: 100dvh;
+  background: var(--c-bg-flat);
+  padding: 28px var(--pad-side) 60px;
+}
+
+.control-header {
+  max-width: 640px;
+  margin: 0 auto 22px;
+  text-align: center;
+}
+
+.control-header__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 20px;
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.66);
+  border: 1px solid var(--c-rose-line);
+  color: #C4738D;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.control-header__pill svg {
+  color: var(--c-rose);
+}
+
+.control-header__title {
+  margin-top: 14px;
+  font-size: var(--fs-h2);
+  font-weight: 800;
+  color: var(--c-ink);
+}
+
+.control-header__subtitle {
+  margin-top: 4px;
+  font-size: var(--fs-meta);
+  color: var(--c-muted);
+}
+
+.control-list {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-row);
+}
+
+/* ---------- שורת פריט ---------- */
+.admin-row {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.6vw, 14px);
+  min-height: var(--card-h);
+  padding: clamp(10px, 1.4vw, 12px) clamp(12px, 1.7vw, 15px);
+  border-radius: var(--r-card);
+  background: var(--c-surface);
+  box-shadow: var(--sh-card);
+}
+
+.admin-row__main {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.9vw, 17px);
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+}
+
+.admin-row__main:hover .row__title {
+  color: var(--c-rose);
+}
+
+.admin-row__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.qty-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px;
+  border-radius: var(--r-pill);
+  background: var(--c-rose-tint);
+}
+
+.qty-step__btn {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--c-rose-deep);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 0 1px 3px rgba(150, 100, 120, 0.18);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.qty-step__btn:active {
+  transform: scale(0.92);
+}
+
+.qty-step__btn:disabled {
+  opacity: 0.4;
+}
+
+.qty-step__value {
+  min-width: 20px;
+  text-align: center;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--c-ink);
+}
+
+.admin-row__delete {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  color: var(--c-muted);
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.admin-row__delete:hover {
+  background: #FDECF1;
+  color: var(--c-rose-deep);
+}
+
+/* ---------- כרטיס "הוספת פריט" ---------- */
+.admin-add {
+  list-style: none;
+}
+
+.admin-add__btn {
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 1.9vw, 17px);
+  width: 100%;
+  min-height: var(--card-h);
+  padding: clamp(10px, 1.4vw, 12px) clamp(12px, 1.7vw, 15px);
+  border-radius: var(--r-card);
+  background: var(--c-rose-tint);
+  border: 2px dashed var(--c-rose-line);
+  text-align: right;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+
+.admin-add__btn:hover {
+  background: #FCEDF1;
+  border-color: var(--c-rose);
+}
+
+/* ---------- בוררי אייקון וגוון (בתוך AdminItemDialog) ---------- */
+.icon-picker {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+.icon-picker__btn {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.icon-picker__btn:active {
+  transform: scale(0.94);
+}
+
+.icon-picker__btn--selected {
+  border-color: var(--c-rose);
+}
+
+.tint-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.tint-picker__swatch {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  transition: border-color 0.18s ease, transform 0.18s ease;
+}
+
+.tint-picker__swatch:active {
+  transform: scale(0.92);
+}
+
+.tint-picker__swatch--selected {
+  border-color: var(--c-ink);
+}
+
+.tint-picker__swatch--pink     { background: var(--t-pink-bg);     color: var(--t-pink-fg); }
+.tint-picker__swatch--peach    { background: var(--t-peach-bg);    color: var(--t-peach-fg); }
+.tint-picker__swatch--apricot  { background: var(--t-apricot-bg);  color: var(--t-apricot-fg); }
+.tint-picker__swatch--lavender { background: var(--t-lavender-bg); color: var(--t-lavender-fg); }
+.tint-picker__swatch--teal     { background: var(--t-teal-bg);     color: var(--t-teal-fg); }
+
+@media (min-width: 720px) {
+  .admin-row { min-height: 90px; }
+}

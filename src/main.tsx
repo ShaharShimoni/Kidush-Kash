@@ -1,6 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
+import ControlApp from './ControlApp'
 import { purgeLegacyLocalState } from './lib/legacyStorage'
 import './styles/global.css'
 
@@ -14,9 +15,12 @@ if (container) {
   document.documentElement.setAttribute('lang', 'he')
   container.setAttribute('dir', 'rtl')
 
-  createRoot(container).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  )
+  /* נתיב יחיד נוסף — לא מצדיק ספריית ראוטינג */
+  const path = window.location.pathname
+    .replace(import.meta.env.BASE_URL, '')
+    .replace(/^\/+|\/+$/g, '')
+
+  const page = path === 'control' ? <ControlApp /> : <App />
+
+  createRoot(container).render(<StrictMode>{page}</StrictMode>)
 }
