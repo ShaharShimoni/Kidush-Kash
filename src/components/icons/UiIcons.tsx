@@ -110,6 +110,16 @@ export function InfoIcon(p: P) {
   )
 }
 
+export function CandleIcon(p: P) {
+  return (
+    <svg {...base} {...p} strokeWidth={1.7}>
+      <path d="M12 3.4c0 1.4-1.7 2-1.7 3.6a1.7 1.7 0 0 0 3.4 0c0-1.6-1.7-2.2-1.7-3.6Z" />
+      <path d="M9.2 8.6h5.6l-.9 10.6a1.4 1.4 0 0 1-1.4 1.3h-1a1.4 1.4 0 0 1-1.4-1.3L9.2 8.6Z" />
+      <path d="M7.4 20.5h9.2" />
+    </svg>
+  )
+}
+
 export function TrashIcon(p: P) {
   return (
     <svg {...base} {...p} strokeWidth={1.8}>

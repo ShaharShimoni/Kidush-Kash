@@ -1,0 +1,80 @@
+.shabbat {
+  max-width: 640px;
+  margin: 0 auto;
+  /*
+    ContributionPanel.css מגדיר .panel עם margin-top שלילי (clamp(-60px..-40px))
+    כדי לצוף מעל ה-Hero. עכשיו ש-.shabbat יושב ביניהם, מפצים באותו גודל בדיוק
+    כדי שהמשיכה כלפי מעלה תיעצר בתחתית הכרטיס הזה ולא תחפוף אותו.
+  */
+  margin-bottom: clamp(40px, 5.3vw, 60px);
+  padding: 0 var(--pad-side);
+}
+
+.shabbat__card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--r-card);
+  background: var(--c-rose-tint);
+  box-shadow: var(--sh-card);
+}
+
+.shabbat__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--c-rose-deep);
+}
+
+.shabbat__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.shabbat__title {
+  font-size: var(--fs-meta);
+  font-weight: 700;
+  color: var(--c-rose-deep);
+}
+
+.shabbat__parasha {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--c-muted);
+}
+
+.shabbat__row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: var(--fs-title);
+  font-weight: 800;
+  color: var(--c-ink);
+}
+
+.shabbat__row--havdalah {
+  margin-top: 3px;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  color: var(--c-ink-soft);
+}
+
+.shabbat__fallback {
+  max-width: 640px;
+  margin: 0 auto;
+  margin-bottom: clamp(40px, 5.3vw, 60px);
+  padding: 0 var(--pad-side);
+  text-align: center;
+  font-size: 13px;
+  color: var(--c-muted);
+}
+
+.shabbat--loading .shabbat__card {
+  gap: 14px;
+}

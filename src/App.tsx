@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Hero } from './components/Hero'
+import { ShabbatTimes } from './components/ShabbatTimes'
 import { ContributionPanel } from './components/ContributionPanel'
 import { RegistrationDialog } from './components/RegistrationDialog'
 import { AddItemDialog } from './components/AddItemDialog'
@@ -111,6 +112,7 @@ export default function App() {
     <div className="app" dir="rtl">
       <main className="app__main">
         <Hero />
+        <ShabbatTimes />
         <ContributionPanel
           items={items}
           isLoading={isLoading}
